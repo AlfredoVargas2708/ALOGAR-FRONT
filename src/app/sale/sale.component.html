@@ -1,0 +1,25 @@
+<div class="container">
+    <div class="header">
+        <h1>Nueva Venta</h1>
+    </div>
+    <div class="venta">
+        <form [formGroup]="productForm" (ngSubmit)="onProductSubmit()" class="productForm">
+            <div *ngFor="let field of productFields, let i = index" [class]="field.name">
+                <div class="labels">
+                    <img [src]="productIcons[i]" alt="Label Icon">
+                    <label>{{ field.label }}</label>
+                </div>
+                <input [type]="field.type" [formControlName]="field.name" class="form-control product" />
+            </div>
+        </form>
+        <form [formGroup]="saleForm" (ngSubmit)="onSaleSubmit()" class="saleForm">
+            <div *ngFor="let field of saleFields, let i = index" [class]="field.name">
+                <div class="labels">
+                    <img [src]="saleIcons[i]" alt="Label Icon">
+                    <label>{{ field.label }}</label>
+                </div>
+                <input [type]="field.type" [formControlName]="field.name" class="form-control sale" [ngStyle]="{'display': field.type !== 'array' ? 'flex' : 'none'}"/>
+            </div>
+        </form>
+    </div>
+</div>
