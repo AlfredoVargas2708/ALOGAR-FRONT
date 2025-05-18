@@ -3,11 +3,12 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
+    "start": "node server.js",
+    "build": "ng build --configuration=production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:front-end": "node dist/front-end/server/server.mjs"
+    "serve:ssr:front-end": "node dist/front-end/server/server.mjs",
+    "serve-static": "npx serve -s dist/front-end"
   },
   "private": true,
   "dependencies": {
