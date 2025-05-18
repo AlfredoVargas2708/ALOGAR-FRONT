@@ -30,7 +30,10 @@
         width: 20%;
     }
 
-    .codigo, .name, .price, .quantity {
+    .codigo,
+    .name,
+    .price,
+    .quantity {
         display: flex;
         flex-direction: column;
         gap: 10px;
@@ -49,17 +52,16 @@
     }
 }
 
-.saleForm {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+.sale-data {
+    display: grid;
+    grid-template-columns: repeat(2, 0.3fr);
+    gap: 30px;
 
     .labels {
         display: flex;
         align-items: center;
         justify-content: flex-start;
         gap: 10px;
-        width: 10%;
 
         img {
             width: 20px;
@@ -67,7 +69,7 @@
         }
     }
 
-    .id{
+    .id {
         display: flex;
         align-items: center;
         width: 95%;
@@ -87,11 +89,53 @@
         }
     }
 
-    .id, .date {
+    .id,
+    .date {
         gap: 10px;
     }
 }
 
-p, h1, h2, h3, h4, h5, h6 {
+.products-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .products-header {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 10px;
+
+        img {
+            width: 20px;
+            height: 20px;
+        }
+    }
+
+    .products-table {
+        width: 100%;
+        overflow: auto;
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 10px;
+
+            td, th {
+                padding: 5px 10px;
+                border: 1px solid #1b421d;
+            }
+        }
+    }
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     margin: 0;
+    font-size: 18px;
 }

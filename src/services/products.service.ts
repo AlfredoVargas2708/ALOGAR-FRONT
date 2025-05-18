@@ -1,20 +1,24 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../enviroments/enviroment'
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductsService {
-  API_URL = 'http://localhost:3001/api/products';
 
   constructor(private http: HttpClient) { }
 
   getAllProducts(): Observable<any> {
-    return this.http.get(`${this.API_URL}`);
+    return this.http.get(`${environment.apiUrl}/products`);
   }
 
   getProductsByCategory(category: string): Observable<any> {
-    return this.http.get(`${this.API_URL}/category/${category}`);
+    return this.http.get(`${environment.apiUrl}/category/${category}`);
+  }
+
+  getProductByCode(code: string): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/products/${code}`);
   }
 }

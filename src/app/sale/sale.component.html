@@ -9,17 +9,43 @@
                     <img [src]="productIcons[i]" alt="Label Icon">
                     <label>{{ field.label }}</label>
                 </div>
-                <input [type]="field.type" [formControlName]="field.name" class="form-control product" />
+                <input [type]="field.type" [formControlName]="field.name" class="form-control product" [ngStyle]="{'display': field.name !== 'codigo' ? 'block' : 'none'}" />
+                <input [type]="field.type" [formControlName]="field.name" class="form-control code" [ngStyle]="{'display': field.name === 'codigo' ? 'block' : 'none'}" (input)="onCodeInput($event)" />
             </div>
         </form>
-        <form [formGroup]="saleForm" (ngSubmit)="onSaleSubmit()" class="saleForm">
+        <div class="sale-data">
             <div *ngFor="let field of saleFields, let i = index" [class]="field.name">
                 <div class="labels">
                     <img [src]="saleIcons[i]" alt="Label Icon">
                     <label>{{ field.label }}</label>
                 </div>
-                <input [type]="field.type" [formControlName]="field.name" class="form-control sale" [ngStyle]="{'display': field.type !== 'array' ? 'flex' : 'none'}"/>
+                <p [ngStyle]="{'display': field.name === 'id' ? 'block' : 'none'}">{{ cantSales }}</p>
+                <p [ngStyle]="{'display': field.name === 'date' ? 'block' : 'none'}">{{ diaSemana }}, {{ fecha }}</p>
             </div>
-        </form>
+        </div>
+        <div class="products-list">
+            <div class="products-header">
+                <img src="https://img.icons8.com/ios/50/list--v1.png" alt="List Icon">
+                <p>Lista de Productos</p>
+            </div>
+            <div class="products-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Codigo</th>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Precio</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="5">Total</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
