@@ -4,6 +4,7 @@ import { ProductField } from "../interfaces/product";
 export const SALEFIELDS: SaleField[] = [
   { type: 'number', name: 'id', label: 'N° Venta' },
   { type: 'text', name: 'date', label: 'Fecha' },
+  { type: 'number', name: 'total', label: 'Total' },
 ];
 
 export const PRODUCTFIELDS: ProductField[] = [

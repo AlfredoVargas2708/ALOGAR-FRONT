@@ -4,17 +4,19 @@
     </div>
     <div class="venta">
         <form [formGroup]="productForm" (ngSubmit)="onProductSubmit()" class="productForm">
-            <div *ngFor="let field of productFields, let i = index" [class]="field.name">
+            <div *ngFor="let field of productFields; let i = index" [class]="field.name">
                 <div class="labels">
                     <img [src]="productIcons[i]" alt="Label Icon">
                     <label>{{ field.label }}</label>
                 </div>
-                <input [type]="field.type" [formControlName]="field.name" class="form-control product" [ngStyle]="{'display': field.name !== 'codigo' ? 'block' : 'none'}" />
-                <input [type]="field.type" [formControlName]="field.name" class="form-control code" [ngStyle]="{'display': field.name === 'codigo' ? 'block' : 'none'}" (input)="onCodeInput($event)" />
+                <input [type]="field.type" [formControlName]="field.name" class="form-control product"
+                    id="{{ field.name }}"
+                    (input)="field.name === 'codigo' ? onCodeInput($event) : field.name === 'quantity' ? onQuantityInput($event) : null"
+                    (keydown.enter)="$event.preventDefault()" />
             </div>
         </form>
         <div class="sale-data">
-            <div *ngFor="let field of saleFields, let i = index" [class]="field.name">
+            <div *ngFor="let field of saleFields, let i = index" [class]="field.name" [ngStyle]="{'display': field.name !== 'total' ? 'flex' : 'none'}">
                 <div class="labels">
                     <img [src]="saleIcons[i]" alt="Label Icon">
                     <label>{{ field.label }}</label>
@@ -25,8 +27,11 @@
         </div>
         <div class="products-list">
             <div class="products-header">
-                <img src="https://img.icons8.com/ios/50/list--v1.png" alt="List Icon">
-                <p>Lista de Productos</p>
+                <div class="d-flex align-items-center gap-3">
+                    <img src="https://img.icons8.com/ios/50/list--v1.png" alt="List Icon">
+                    <p>Lista de Productos</p>
+                </div>
+                <button class="btn submit" (click)="onSaleSubmit()">Generar Venta</button>
             </div>
             <div class="products-table">
                 <table>
@@ -40,8 +45,21 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <tr *ngFor="let product of productsInSale; let i = index" (click)="onProductSelect(i)"
+                            [class.selected]="indexOfProduct === i">
+                            <td>{{ product.code }}</td>
+                            <td>{{ product.name }}</td>
+                            <td>{{ product.quantity }}</td>
+                            <td>{{ product.price }}</td>
+                            <td>{{ product.price * product.quantity }}</td>
+                            <td style="border: none;">
+                                <button class="btn btn-danger" [disabled]="indexOfProduct !== null"
+                                    (click)="onProductRemove(i)">Eliminar</button>
+                            </td>
+                        </tr>
                         <tr>
-                            <td colspan="5">Total</td>
+                            <td colspan="4">Total</td>
+                            <td>{{ totalSale }}</td>
                         </tr>
                     </tbody>
                 </table>
