@@ -3,8 +3,8 @@
         <h1>Nueva Venta</h1>
     </div>
     <div class="venta">
-        <form [formGroup]="productForm" (ngSubmit)="onProductSubmit()" class="productForm">
-            <div *ngFor="let field of productFields; let i = index" [class]="field.name">
+        <form [formGroup]="productForm" class="productForm">
+            <div *ngFor="let field of productFields; let i = index" [class]="field.name" [ngStyle]="{'display': field.name !== 'id' ? 'flex' : 'none'}">
                 <div class="labels">
                     <img [src]="productIcons[i]" alt="Label Icon">
                     <label>{{ field.label }}</label>

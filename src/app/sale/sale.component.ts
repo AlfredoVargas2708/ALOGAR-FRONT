@@ -28,6 +28,7 @@ export class SaleComponent implements AfterViewInit {
   ];
   productIcons = [
     'https://img.icons8.com/ios/50/barcode-scanner.png',
+    '',
     'https://img.icons8.com/ios/50/product--v1.png',
     'https://img.icons8.com/ios/50/price-tag.png',
     'https://img.icons8.com/ios/50/average.png'
@@ -86,6 +87,7 @@ export class SaleComponent implements AfterViewInit {
       id: this.cantSales + 1,
       total: this.totalSale,
     })
+    console.log('Sale Form Submitted', this.saleForm.value);
     setTimeout(() => {
       this.productsInSale = [];
       this.totalSale = 0;
@@ -95,18 +97,11 @@ export class SaleComponent implements AfterViewInit {
     })
   }
 
-  onProductSubmit() {
-    if (this.productForm.valid) {
-      console.log('Product Form Submitted', this.productForm.value);
-    } else {
-      console.log('Product Form is invalid');
-    }
-  }
-
   onCodeInput(event: Event) {
     const value = (event.target as HTMLInputElement).value;
     this.productsService.getProductByCode(value).subscribe((res) => {
       this.productForm.patchValue({
+        id: res.product_id,
         name: res.product,
         price: res.price
       });
@@ -138,6 +133,7 @@ export class SaleComponent implements AfterViewInit {
   private addNewProduct(quantity: number) {
     this.productsInSale.push({
       code: this.productForm.get('codigo')?.value,
+      id: this.productForm.get('id')?.value,
       name: this.productForm.get('name')?.value,
       price: this.productForm.get('price')?.value,
       quantity: quantity

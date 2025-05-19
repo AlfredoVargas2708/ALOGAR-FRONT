@@ -9,6 +9,7 @@ export const SALEFIELDS: SaleField[] = [
 
 export const PRODUCTFIELDS: ProductField[] = [
   { type: 'number', name: 'codigo', label: 'Codigo de Barras' },
+  { type: 'number', name: 'id', label: 'ID' },
   { type: 'text', name: 'name', label: 'Producto' },
   { type: 'number', name: 'price', label: 'Precio' },
   { type: 'number', name: 'quantity', label: 'Cantidad' },
