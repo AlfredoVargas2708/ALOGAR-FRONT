@@ -34,7 +34,7 @@ export class SaleComponent implements AfterViewInit {
     'https://img.icons8.com/ios/50/average.png'
   ];
 
-  cantSales: number | null = null;
+  cantSales: number = 1;
   diaSemana: string = new Date().toLocaleDateString('es-ES', { weekday: 'long' });
   fecha: string = new Date().toLocaleDateString('es-ES', {
     year: 'numeric', month: '2-digit', day: '2-digit'
@@ -62,7 +62,7 @@ export class SaleComponent implements AfterViewInit {
     this.saleForm = this.fb.group(saleGroup);
 
     this.saleService.getCantSales().subscribe((res) => {
-      this.cantSales = res.count;
+      this.cantSales = res.count + 1;
     });
   }
 
@@ -84,7 +84,7 @@ export class SaleComponent implements AfterViewInit {
     this.saleForm.addControl('products', this.fb.control([]));
     this.saleForm.patchValue({
       date: new Date().toISOString(),
-      id: (this.cantSales ?? 0) + 1,
+      id: this.cantSales,
       total: this.totalSale,
       products: this.productsInSale
     })
