@@ -102,11 +102,13 @@ export class SaleComponent implements AfterViewInit {
   onCodeInput(event: Event) {
     const value = (event.target as HTMLInputElement).value;
     this.productsService.getProductByCode(value).subscribe((res) => {
+      this.productForm.addControl('weighable', this.fb.control(res.product_weighable));
       this.productForm.patchValue({
         id: res.product_id,
         name: res.product,
         price: res.price
       });
+      console.log('Product Form', this.productForm.value);
 
       setTimeout(() => {
         let input = this.renderer.selectRootElement('#quantity');
@@ -116,21 +118,36 @@ export class SaleComponent implements AfterViewInit {
     });
   }
 
-  onQuantityInput(event: Event) {
-    const value = (event.target as HTMLInputElement).value;
+onQuantityInput(event: Event) {
+  const inputElement = event.target as HTMLInputElement;
+  const value = inputElement.value;
+  const isWeighable = this.productForm.get('weighable')?.value;
 
-    // Si hay un producto seleccionado, actualizarlo
-    if (this.indexOfProduct !== null) {
-      this.updateSelectedProduct(Number(value));
+  // Validación para productos pesables
+  if (isWeighable) {
+    // Verificar si el valor tiene decimales
+    if (!value.includes('.') || value.split('.')[1]?.length !== 2) {
+      // Mostrar mensaje de error y mantener el foco
+      inputElement.setCustomValidity('Debe ingresar un valor con 2 decimales (ej: 1.00)');
+      inputElement.reportValidity();
+      return; // Salir de la función sin procesar
     } else {
-      // Si no hay producto seleccionado, agregar uno nuevo
-      this.addNewProduct(Number(value));
+      inputElement.setCustomValidity(''); // Limpiar el mensaje de error
     }
-
-    this.productForm.reset();
-    this.focusCodeInput();
-    this.indexOfProduct = null; // Resetear la selección
   }
+
+  // Si hay un producto seleccionado, actualizarlo
+  if (this.indexOfProduct !== null) {
+    this.updateSelectedProduct(Number(value));
+  } else {
+    // Si no hay producto seleccionado, agregar uno nuevo
+    this.addNewProduct(Number(value));
+  }
+
+  this.productForm.reset();
+  this.focusCodeInput();
+  this.indexOfProduct = null;
+}
 
   private addNewProduct(quantity: number) {
     this.productsInSale.push({
