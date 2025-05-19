@@ -34,7 +34,7 @@ export class SaleComponent implements AfterViewInit {
     'https://img.icons8.com/ios/50/average.png'
   ];
 
-  cantSales: number = 0;
+  cantSales: number | null = null;
   diaSemana: string = new Date().toLocaleDateString('es-ES', { weekday: 'long' });
   fecha: string = new Date().toLocaleDateString('es-ES', {
     year: 'numeric', month: '2-digit', day: '2-digit'
@@ -81,17 +81,19 @@ export class SaleComponent implements AfterViewInit {
   }
 
   onSaleSubmit() {
-    this.saleForm.addControl('products', this.fb.control(this.productsInSale));
+    this.saleForm.addControl('products', this.fb.control([]));
     this.saleForm.patchValue({
       date: new Date().toISOString(),
-      id: this.cantSales + 1,
+      id: (this.cantSales ?? 0) + 1,
       total: this.totalSale,
+      products: this.productsInSale
     })
     console.log('Sale Form Submitted', this.saleForm.value);
     setTimeout(() => {
       this.productsInSale = [];
       this.totalSale = 0;
       this.indexOfProduct = null; // Resetear la selección
+      this.saleForm.reset();
       this.productForm.reset();
       this.focusCodeInput();
     })
