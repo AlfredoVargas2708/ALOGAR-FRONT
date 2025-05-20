@@ -1,1 +1,22 @@
-<p>Products</p>
+<div class="container">
+    <div class="header">
+        <h1>Productos</h1>
+    </div>
+    <div class="categories">
+        <p>Categories</p>
+        <div #categoriasContainer class="categories-list">
+            <div class="category" *ngFor="let category of categories" [ngClass]="{'selected': selectedCategory === category.category_id}" (click)="changeCategory(category.category_id)">
+                <img [src]="category.category_image" alt="Category Icon">
+                <p>{{ category.category }}</p>
+            </div>
+        </div>
+        <div class="buttons">
+            <button class="btn btn-up" (click)="scrollToTop()">
+                <img src="https://img.icons8.com/ios/50/sort-up.png" alt="Arrow Up">
+            </button>
+            <button class="btn btn-down" (click)="scrollToBottom()">
+                <img src="https://img.icons8.com/ios/50/sort-down.png" alt="Arrow Down">
+            </button>
+        </div>
+    </div>
+</div>

@@ -10,8 +10,8 @@ import { DataService } from '../../services/data.service';
 })
 export class NavbarComponent {
   menuItems = [
-    { name: 'Venta', icon: 'https://img.icons8.com/ios/50/FFFFFF/sale--v1.png', active: true, iconActive: 'https://img.icons8.com/ios-filled/50/1b421d/sale.png'},
-    { name: 'Productos', icon: 'https://img.icons8.com/ios/50/FFFFFF/fast-moving-consumer-goods.png', active: false, iconActive: 'https://img.icons8.com/ios-filled/50/1b421d/fast-moving-consumer-goods.png'},
+    { name: 'Venta', icon: 'https://img.icons8.com/ios/50/FFFFFF/sale--v1.png', active: false, iconActive: 'https://img.icons8.com/ios-filled/50/1b421d/sale.png'},
+    { name: 'Productos', icon: 'https://img.icons8.com/ios/50/FFFFFF/fast-moving-consumer-goods.png', active: true, iconActive: 'https://img.icons8.com/ios-filled/50/1b421d/fast-moving-consumer-goods.png'},
     { name: 'Registros', icon: 'https://img.icons8.com/ios/50/FFFFFF/documents.png', active: false, iconActive: 'https://img.icons8.com/ios-filled/50/1b421d/documents.png'},
   ]
   constructor(private dataService: DataService) {}

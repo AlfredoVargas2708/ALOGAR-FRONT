@@ -13,7 +13,7 @@ import { SaleComponent } from './sale/sale.component';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  principalView: any = 'Venta';
+  principalView: any = 'Productos';
 
   constructor(private dataService: DataService) { 
     this.dataService.data$.subscribe((dato: any) => {
