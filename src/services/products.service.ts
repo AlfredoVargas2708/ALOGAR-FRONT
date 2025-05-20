@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../enviroments/enviroment.prod'
+import { environment } from '../enviroments/enviroment'
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +14,8 @@ export class ProductsService {
     return this.http.get(`${environment.apiUrl}/products`);
   }
 
-  getProductsByCategory(category_id: number): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/products/category/${category_id}`);
+  getProductsByCategory(category_id: number, page: number, pageSize: number): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/products/category/${category_id}?page=${page}&pageSize=${pageSize}`);
   }
 
   getProductByCode(code: string): Observable<any> {
