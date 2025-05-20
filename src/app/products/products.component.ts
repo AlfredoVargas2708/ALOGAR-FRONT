@@ -2,31 +2,26 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductsService } from '../../services/products.service';
 import { CategoriesService } from '../../services/categories.service';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatPaginatorModule],
+  imports: [CommonModule],
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss'
 })
 export class ProductsComponent {
   categories: any[] = [];
+  products: any[] = [];
   selectedCategory: number | null = null;
   @ViewChild('categoriasContainer') categoriasContainer!: ElementRef;
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  dataSource = new MatTableDataSource<any>();
-  displayedColumns: string[] = ['imagen', 'codigo', 'nombre', 'precio', 'acciones'];
   scrollStep = 53;
   isLoadingProducts = true;
   currentPage = 1;
   pageSize = 10;
   totalProducts = 0;
+  totalPages = 0;
 
   constructor(
     private productsService: ProductsService,
@@ -46,24 +41,22 @@ export class ProductsComponent {
       this.isLoadingProducts = true;
       this.productsService.getProductsByCategory(this.selectedCategory, this.currentPage, this.pageSize)
         .subscribe((data) => {
-          this.dataSource.data = data.products;
+          this.products = data.products;
           this.totalProducts = data.totalProducts;
-          console.log('Productos:', data.products);
-          console.log('Total:', data.total);
+          this.totalPages = data.totalPages;
           this.isLoadingProducts = false;
         });
     }
   }
 
-  onPageChange(event: PageEvent) {
-    this.currentPage = event.pageIndex + 1; // pageIndex es base 0
-    this.pageSize = event.pageSize;
-    this.fetchProducts();
-  }
-
   changeCategory(category: number) {
     this.selectedCategory = category;
     this.currentPage = 1;
+    this.fetchProducts();
+  }
+
+  onPageChange(newPage: number) {
+    this.currentPage = newPage;
     this.fetchProducts();
   }
 

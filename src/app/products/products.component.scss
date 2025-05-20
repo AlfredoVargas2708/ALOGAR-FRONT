@@ -144,6 +144,32 @@
     }
 }
 
+.pagination {
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+
+    button {
+        width: 10%;
+        height: 50px;
+        padding: 0;
+        background-color: #1b421d;
+        color: white;
+        border-radius: 5px;
+
+        &:disabled {
+            background-color: #ccc;
+            color: #666;
+        }
+
+        img {
+            width: 50px;
+            height: 45px;
+        }
+    }
+}
+
 p,
 h1,
 h2,
