@@ -15,6 +15,7 @@ export class ProductsComponent {
   selectedCategory: number | null = null;
   @ViewChild('categoriasContainer') categoriasContainer!: ElementRef;
   scrollStep = 53;
+  isLoadingProducts = true;
 
   constructor(
     private productsService: ProductsService,
@@ -23,11 +24,11 @@ export class ProductsComponent {
   ngOnInit() {
     this.categoriesService.getCategories().subscribe((data) => {
       this.categories = data;
-      this.selectedCategory = this.categories[0]?.category_id || null;
+      this.selectedCategory = this.categories[this.categories.length -1]?.category_id || null;
       if (this.selectedCategory !== null) {
         this.productsService.getProductsByCategory(this.selectedCategory).subscribe((data) => {
           this.products = data;
-          console.log(this.products);
+          this.isLoadingProducts = false;
         });
       }
     });
@@ -35,9 +36,10 @@ export class ProductsComponent {
 
   changeCategory(category: number) {
     this.selectedCategory = category;
+    this.isLoadingProducts = true;
     this.productsService.getProductsByCategory(this.selectedCategory).subscribe((data) => {
       this.products = data;
-      console.log(this.products);
+      this.isLoadingProducts = false;
     });
   }
 

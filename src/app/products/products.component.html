@@ -1,11 +1,10 @@
 <div class="container">
-    <div class="header">
-        <h1>Productos</h1>
-    </div>
     <div class="categories">
-        <p>Categories</p>
+        <p>Categorías</p>
         <div #categoriasContainer class="categories-list">
-            <div class="category" *ngFor="let category of categories" [ngClass]="{'selected': selectedCategory === category.category_id}" (click)="changeCategory(category.category_id)">
+            <div class="category" *ngFor="let category of categories"
+                [ngClass]="{'selected': selectedCategory === category.category_id}"
+                (click)="changeCategory(category.category_id)">
                 <img [src]="category.category_image" alt="Category Icon">
                 <p>{{ category.category }}</p>
             </div>
@@ -18,5 +17,44 @@
                 <img src="https://img.icons8.com/ios/50/sort-down.png" alt="Arrow Down">
             </button>
         </div>
+    </div>
+    <div class="loader-container" *ngIf="isLoadingProducts">
+        <div class="loader"></div>
+    </div>
+    <div class="products" *ngIf="!isLoadingProducts">
+        <h1>Productos</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Imagen</th>
+                    <th>Código</th>
+                    <th>Nombre</th>
+                    <th>Precio</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let product of products">
+                    <td>
+                        <img [src]="product.product_image" alt="">
+                    </td>
+                    <td>
+                        {{ product.product_code ? product.product_code : 'N/A' }}
+                    </td>
+                    <td>
+                        {{ product.product }}
+                    </td>
+                    <td>
+                        {{ product.price | currency: 'CLP': 'symbol' }}
+                    </td>
+                    <td>
+                        <div class="actions">
+                            <button class="btn edit">Edit</button>
+                            <button class="btn delete">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
