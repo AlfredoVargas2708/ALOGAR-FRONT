@@ -1,3 +1,9 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
 .categories {
     display: flex;
     align-items: center;
@@ -71,8 +77,16 @@
         width: 100%;
         overflow: auto;
 
-        th {
-            text-align: center;
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            img {
+                width: 20px;
+                height: 20px;
+                cursor: pointer;
+            }
         }
 
         td,
@@ -136,6 +150,40 @@
     -webkit-mask-composite: source-out;
     mask-composite: subtract;
     animation: l3 1s infinite linear;
+}
+
+.filters {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    .search-input {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 40%;
+        border: 1px solid #1b421d;
+        padding: 5px 10px;
+        border-radius: 5px;
+        background-color: #f8f8f8;
+
+        img {
+            width: 25px;
+            height: 25px;
+        }
+
+        input {
+            border-radius: 5px;
+            width: 50%;
+            border: none;
+            background-color: transparent;
+            width: 100%;
+
+            &:focus {
+                outline: none;
+            }
+        }
+    }
 }
 
 @keyframes l3 {

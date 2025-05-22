@@ -21,4 +21,8 @@ export class ProductsService {
   getProductByCode(code: string): Observable<any> {
     return this.http.get(`${environment.apiUrl}/products/${code}`);
   }
+
+  getProductsOrderBy(order: string, page: number, pageSize: number): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/products/order/${order}?page=${page}&pageSize=${pageSize}`);
+  }
 }

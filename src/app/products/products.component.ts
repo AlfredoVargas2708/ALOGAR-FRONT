@@ -44,7 +44,9 @@ export class ProductsComponent {
           this.products = data.products;
           this.totalProducts = data.totalProducts;
           this.totalPages = data.totalPages;
-          this.isLoadingProducts = false;
+          setTimeout(() => {
+            this.isLoadingProducts = false;
+          }, 1500);
         });
     }
   }
@@ -77,5 +79,18 @@ export class ProductsComponent {
     } else {
       el.scrollTo({ top: maxScrollTop, behavior: 'smooth' });
     }
+  }
+
+  sortBy(type: string) {
+    this.isLoadingProducts = true;
+    this.productsService.getProductsOrderBy(type, this.currentPage, this.pageSize)
+      .subscribe((data) => {
+        this.products = data.products;
+        this.totalProducts = data.totalProducts;
+        this.totalPages = data.totalPages;
+        setTimeout(() => {
+          this.isLoadingProducts = false;
+        }, 1500);
+      });
   }
 }

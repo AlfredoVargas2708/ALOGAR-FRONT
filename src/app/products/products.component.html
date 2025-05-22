@@ -18,6 +18,12 @@
             </button>
         </div>
     </div>
+    <div class="filters">
+        <div class="search-input">
+            <img src="https://img.icons8.com/ios/50/search.png" alt="Filter Icon">
+            <input type="text" class="filter-input" placeholder="Buscar productos por código">
+        </div>
+    </div>
     <div class="loader-container" *ngIf="isLoadingProducts">
         <div class="loader"></div>
     </div>
@@ -27,9 +33,26 @@
             <thead>
                 <tr>
                     <th>Imagen</th>
-                    <th>Código</th>
-                    <th>Nombre</th>
-                    <th>Precio</th>
+                    <th>
+                        <div class="header">
+                            <img src="https://img.icons8.com/ios/50/sorting-arrows.png" alt="" (click)="sortBy('product_code')">
+                            <p>Código</p>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="header">
+                            <img src="https://img.icons8.com/ios/50/sorting-arrows.png" alt=""
+                            (click)="sortBy('product')">
+                            <p>Nombre Producto</p>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="header">
+                            <img src="https://img.icons8.com/ios/50/sorting-arrows.png" alt=""
+                            (click)="sortBy('price')">
+                            <p>Precio</p>
+                        </div>
+                    </th>
                     <th>Acciones</th>
                 </tr>
             </thead>
