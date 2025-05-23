@@ -71,8 +71,8 @@
                     </td>
                     <td>
                         <div class="actions">
-                            <button class="btn edit">Edit</button>
-                            <button class="btn delete">Delete</button>
+                            <button class="btn edit" data-bs-toggle="modal" data-bs-target="#editModal" (click)="onEditProduct(product)">Edit</button>
+                            <button class="btn delete" (click)="onDeleteProduct(product)">Delete</button>
                         </div>
                     </td>
                 </tr>
@@ -82,6 +82,35 @@
             <button (click)="onPageChange(currentPage - 1)" [disabled]="currentPage <= 1">Anterior</button>
             <span>Página {{ currentPage }} de {{ totalPages }}</span>
             <button (click)="onPageChange(currentPage + 1)" [disabled]="currentPage >= totalPages">Siguiente</button>
+        </div>
+    </div>
+
+    <!-- Edit Product Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Editar Producto</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="productForm" class="productForm">
+                        <div *ngFor="let field of productFields; let i = index" [class]="field.name"
+                            [ngStyle]="{'display': field.name !== 'id' ? 'flex' : 'none'}">
+                            <div class="labels">
+                                <img [src]="productIcons[i]" alt="Label Icon">
+                                <label>{{ field.label }}</label>
+                            </div>
+                            <input [type]="field.type" [formControlName]="field.name" class="form-control product"
+                                id="{{ field.name }}"/>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" (click)="onSaveProduct()" data-bs-dismiss="modal">Guardar cambios</button>
+                </div>
+            </div>
         </div>
     </div>
     <div class="loader-container" *ngIf="isLoadingProducts">

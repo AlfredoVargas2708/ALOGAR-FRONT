@@ -186,6 +186,33 @@
     }
 }
 
+.productForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 15px;
+
+    .codigo,
+    .name,
+    .price,
+    .quantity {
+        flex-direction: column;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .labels {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+
+        img {
+            width: 20px;
+            height: 20px;
+        }
+    }
+}
+
 @keyframes l3 {
     to {
         transform: rotate(1turn)

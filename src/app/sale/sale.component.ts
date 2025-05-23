@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Renderer2, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { SALEFIELDS, PRODUCTFIELDS } from '../config/fields.config';
+import { SALEFIELDS, SALEPRODUCTFIELDS } from '../config/fields.config';
 import { SalesService } from '../../services/sales.service';
 import { ProductsService } from '../../services/products.service';
 
@@ -17,7 +17,7 @@ export class SaleComponent implements AfterViewInit {
   saleForm!: FormGroup;
   productForm!: FormGroup;
   saleFields = SALEFIELDS;
-  productFields = PRODUCTFIELDS;
+  productFields = SALEPRODUCTFIELDS;
   productsInSale: any[] = [];
   totalSale: number = 0;
   indexOfProduct: number | null = null;

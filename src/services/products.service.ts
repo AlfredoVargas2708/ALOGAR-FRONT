@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../enviroments/enviroment'
+import { environment } from '../enviroments/enviroment.prod'
 
 @Injectable({
   providedIn: 'root'
@@ -24,5 +24,13 @@ export class ProductsService {
 
   getProductsOrderBy(order: string, page: number, pageSize: number): Observable<any> {
     return this.http.get(`${environment.apiUrl}/products/order/${order}?page=${page}&pageSize=${pageSize}`);
+  }
+
+  editProduct(product: any): Observable<any> {
+    return this.http.put(`${environment.apiUrl}/products`, product);
+  }
+  
+  deleteProduct(product_id: number): Observable<any> {
+    return this.http.delete(`${environment.apiUrl}/products/${product_id}`);
   }
 }
