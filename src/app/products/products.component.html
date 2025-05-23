@@ -21,11 +21,9 @@
     <div class="filters">
         <div class="search-input">
             <img src="https://img.icons8.com/ios/50/search.png" alt="Filter Icon">
-            <input type="text" class="filter-input" placeholder="Buscar productos por código" (input)="searchProductsByCode($event)">
+            <input type="text" class="filter-input" placeholder="Buscar productos por código"
+                (input)="searchProductsByCode($event)">
         </div>
-    </div>
-    <div class="loader-container" *ngIf="isLoadingProducts">
-        <div class="loader"></div>
     </div>
     <div class="products" *ngIf="!isLoadingProducts">
         <h1>Productos</h1>
@@ -35,21 +33,22 @@
                     <th>Imagen</th>
                     <th>
                         <div class="header">
-                            <img src="https://img.icons8.com/ios/50/sorting-arrows.png" alt="" (click)="sortBy('product_code')">
+                            <img src="https://img.icons8.com/ios/50/sorting-arrows.png" alt=""
+                                (click)="sortBy('product_code')">
                             <p>Código</p>
                         </div>
                     </th>
                     <th>
                         <div class="header">
                             <img src="https://img.icons8.com/ios/50/sorting-arrows.png" alt=""
-                            (click)="sortBy('product')">
+                                (click)="sortBy('product')">
                             <p>Nombre Producto</p>
                         </div>
                     </th>
                     <th>
                         <div class="header">
                             <img src="https://img.icons8.com/ios/50/sorting-arrows.png" alt=""
-                            (click)="sortBy('price')">
+                                (click)="sortBy('price')">
                             <p>Precio</p>
                         </div>
                     </th>
@@ -84,5 +83,8 @@
             <span>Página {{ currentPage }} de {{ totalPages }}</span>
             <button (click)="onPageChange(currentPage + 1)" [disabled]="currentPage >= totalPages">Siguiente</button>
         </div>
+    </div>
+    <div class="loader-container" *ngIf="isLoadingProducts">
+        <div class="loader"></div>
     </div>
 </div>
