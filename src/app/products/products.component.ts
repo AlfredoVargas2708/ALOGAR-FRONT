@@ -98,14 +98,21 @@ export class ProductsComponent {
     const inputElement = event.target as HTMLInputElement;
     const value = inputElement.value;
 
-    this.isLoadingProducts = true;
-    this.productsService.getProductByCode(value).subscribe((res) => {
-      this.products = [res];
-      this.totalProducts = 1;
-      this.totalPages = 1;
+    if(value !== '') {
+      this.isLoadingProducts = true;
+      this.productsService.getProductByCode(value).subscribe((res) => {
+        this.products = [res];
+        this.totalProducts = 1;
+        this.totalPages = 1;
+        setTimeout(() => {
+          this.isLoadingProducts = false;
+        }, 1500);
+      });
+    } else {
+      this.fetchProducts();
       setTimeout(() => {
         this.isLoadingProducts = false;
       }, 1500);
-    });
+    }
   }
 }
