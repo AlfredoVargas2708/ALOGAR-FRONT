@@ -1,6 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductsService } from '../../services/products.service';
+import { CategoriesService } from '../../services/categories.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { PRODUCTFIELDS } from '../config/fields.config';
 
@@ -36,7 +37,8 @@ export class ProductsComponent {
 
   constructor(
     private productsService: ProductsService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private categoriesService: CategoriesService
   ) {
     const productGroup: any = {};
     this.productFields.forEach((field) => {
@@ -47,6 +49,7 @@ export class ProductsComponent {
 
   ngOnInit() {
     this.fetchProducts();
+    this.fetchCategories();
   }
 
   fetchProducts() {
@@ -58,6 +61,12 @@ export class ProductsComponent {
         this.isLoadingProducts = false;
       }, 1500);
     });
+  }
+
+  fetchCategories() {
+    this.categoriesService.getCategories().subscribe((data) => {
+      this.categories = data;
+    })
   }
 
   onPageChange(newPage: number) {
@@ -146,6 +155,8 @@ export class ProductsComponent {
         }
       });
     } else {
+      this.isLoadingProducts = true;
+      this.fetchProducts();
       setTimeout(() => {
         this.isLoadingProducts = false;
       }, 1500);

@@ -11,6 +11,20 @@
             <input type="text" class="filter-input" placeholder="Buscar productos por nombre"
                 (input)="searchProductsByName($event)">
         </div>
+<!--         <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Filtrar por categoría
+            </button>
+            <ul class="dropdown-menu">
+                <li *ngFor="let category of categories">
+                    <a class="dropdown-item">
+                        <img [src]="category.category_image" alt="Category Icon">
+                        {{ category.category }}
+                    </a>
+                </li>
+            </ul>
+        </div> -->
     </div>
     <table>
         <thead>

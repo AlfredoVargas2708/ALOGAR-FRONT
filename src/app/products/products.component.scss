@@ -117,6 +117,40 @@ table {
             }
         }
     }
+
+    .dropdown-toggle {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        img {
+            width: 25px;
+            height: 25px;
+        }
+    }
+
+    .dropdown-menu {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 5px 10px;
+            cursor: pointer;
+
+            &:hover {
+                background-color: #f0f0f0;
+            }
+
+            img {
+                width: 20px;
+                height: 20px;
+            }
+        }
+    }
 }
 
 .productForm {
