@@ -1,7 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductsService } from '../../services/products.service';
-import { CategoriesService } from '../../services/categories.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { PRODUCTFIELDS } from '../config/fields.config';
 
@@ -24,6 +23,7 @@ export class ProductsComponent {
   pageSize = 10;
   totalProducts = 0;
   totalPages = 0;
+  orderBy: 'asc' | 'desc' = 'asc';
 
   productFields = PRODUCTFIELDS;
   productForm!: FormGroup;
@@ -36,7 +36,6 @@ export class ProductsComponent {
 
   constructor(
     private productsService: ProductsService,
-    private categoriesService: CategoriesService,
     private fb: FormBuilder
   ) {
     const productGroup: any = {};
@@ -47,48 +46,22 @@ export class ProductsComponent {
   }
 
   ngOnInit() {
-    this.categoriesService.getCategories().subscribe((data) => {
-      this.categories = data;
-      this.selectedCategory = this.categories[0]?.category_id || null;
-      this.fetchProducts();
-    });
+    this.fetchProducts();
   }
 
   fetchProducts() {
-    if (this.selectedCategory !== null) {
-      this.isLoadingProducts = true;
-      this.productsService.getProductsByCategory(this.selectedCategory, this.currentPage, this.pageSize)
-        .subscribe({
-          next: (res) => {
-            this.products = res.products;
-            this.totalProducts = res.totalProducts;
-            this.totalPages = res.totalPages;
-            setTimeout(() => {
-              this.isLoadingProducts = false;
-            }, 1500);
-          },
-          error: (error) => {
-            console.error('Error fetching products:', error);
-            this.products = [];
-            this.totalProducts = 0;
-            this.totalPages = 0;
-            setTimeout(() => {
-              this.isLoadingProducts = false;
-            }, 1500);
-          }
-        });
-    }
-  }
-
-  changeCategory(category: number) {
-    this.selectedCategory = category;
-    this.currentPage = 1;
-    this.fetchProducts();
+    this.productsService.getAllProducts(this.currentPage, this.pageSize).subscribe((data) => {
+      this.products = data.products;
+      this.totalProducts = data.totalProducts;
+      this.totalPages = data.totalPages;
+      setTimeout(() => {
+        this.isLoadingProducts = false;
+      }, 1500);
+    });
   }
 
   onPageChange(newPage: number) {
     this.currentPage = newPage;
-    this.fetchProducts();
   }
 
   onEditProduct(product: any) {
@@ -102,14 +75,14 @@ export class ProductsComponent {
 
   onDeleteProduct(product: any) {
     this.productsService.deleteProduct(product.product_id).subscribe((res) => {
-      this.fetchProducts();
+      console.log('Product deleted:', product.product_id);
     })
   }
 
   onSaveProduct() {
     const productData = this.productForm.value;
     this.productsService.editProduct(productData).subscribe((res) => {
-      this.fetchProducts();
+      console.log('Product edited:', productData);
       this.productForm.reset();
     })
   }
@@ -135,7 +108,8 @@ export class ProductsComponent {
 
   sortBy(type: string) {
     this.isLoadingProducts = true;
-    this.productsService.getProductsOrderBy(type, this.currentPage, this.pageSize)
+    this.orderBy = this.orderBy === 'asc' ? 'desc' : 'asc';
+    this.productsService.getProductsOrderBy(type, this.currentPage, this.pageSize, this.orderBy)
       .subscribe((data) => {
         this.products = data.products;
         this.totalProducts = data.totalProducts;
@@ -172,6 +146,39 @@ export class ProductsComponent {
         }
       });
     } else {
+      setTimeout(() => {
+        this.isLoadingProducts = false;
+      }, 1500);
+    }
+  }
+
+  searchProductsByName(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    const value = inputElement.value;
+
+    if (value !== '') {
+      this.isLoadingProducts = true;
+      this.productsService.getProductsByName(value, this.currentPage, this.pageSize).subscribe({
+        next: (res) => {
+          this.products = res.products;
+          this.totalProducts = res.totalProducts;
+          this.totalPages = res.totalPages;
+          setTimeout(() => {
+            this.isLoadingProducts = false;
+          }, 1500);
+        },
+        error: (error: any) => {
+          console.error('Error fetching product by name:', error);
+          this.products = [];
+          this.totalProducts = 0;
+          this.totalPages = 0;
+          setTimeout(() => {
+            this.isLoadingProducts = false;
+          }, 1500);
+        }
+      });
+    } else {
+      this.isLoadingProducts = true;
       this.fetchProducts();
       setTimeout(() => {
         this.isLoadingProducts = false;

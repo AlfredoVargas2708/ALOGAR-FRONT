@@ -10,8 +10,8 @@ export class ProductsService {
 
   constructor(private http: HttpClient) { }
 
-  getAllProducts(): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/products`);
+  getAllProducts(page: number, pageSize: number): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/products?page=${page}&pageSize=${pageSize}`);
   }
 
   getProductsByCategory(category_id: number, page: number, pageSize: number): Observable<any> {
@@ -19,11 +19,15 @@ export class ProductsService {
   }
 
   getProductByCode(code: string): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/products/${code}`);
+    return this.http.get(`${environment.apiUrl}/products/code/${code}`);
   }
 
-  getProductsOrderBy(order: string, page: number, pageSize: number): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/products/order/${order}?page=${page}&pageSize=${pageSize}`);
+  getProductsByName(name: string, page: number, pageSize: number): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/products/name/${name}?page=${page}&pageSize=${pageSize}`);
+  }
+
+  getProductsOrderBy(order: string, page: number, pageSize: number, orderBy: 'asc' | 'desc'): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/products/order/${order}?page=${page}&pageSize=${pageSize}&orderBy=${orderBy}`);
   }
 
   editProduct(product: any): Observable<any> {

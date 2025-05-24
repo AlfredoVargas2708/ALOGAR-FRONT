@@ -1,88 +1,86 @@
 <div class="container">
-    <div class="categories">
-        <p>Categorías</p>
-        <div #categoriasContainer class="categories-list">
-            <div class="category" *ngFor="let category of categories"
-                [ngClass]="{'selected': selectedCategory === category.category_id}"
-                (click)="changeCategory(category.category_id)">
-                <img [src]="category.category_image" alt="Category Icon">
-                <p>{{ category.category }}</p>
-            </div>
-        </div>
-        <div class="buttons">
-            <button class="btn btn-up" (click)="scrollToTop()">
-                <img src="https://img.icons8.com/ios/50/sort-up.png" alt="Arrow Up">
-            </button>
-            <button class="btn btn-down" (click)="scrollToBottom()">
-                <img src="https://img.icons8.com/ios/50/sort-down.png" alt="Arrow Down">
-            </button>
-        </div>
-    </div>
+    <h1>Productos</h1>
     <div class="filters">
         <div class="search-input">
             <img src="https://img.icons8.com/ios/50/search.png" alt="Filter Icon">
             <input type="text" class="filter-input" placeholder="Buscar productos por código"
                 (input)="searchProductsByCode($event)">
         </div>
-    </div>
-    <div class="products" *ngIf="!isLoadingProducts">
-        <h1>Productos</h1>
-        <table>
-            <thead>
-                <tr>
-                    <th>Imagen</th>
-                    <th>
-                        <div class="header">
-                            <img src="https://img.icons8.com/ios/50/sorting-arrows.png" alt=""
-                                (click)="sortBy('product_code')">
-                            <p>Código</p>
-                        </div>
-                    </th>
-                    <th>
-                        <div class="header">
-                            <img src="https://img.icons8.com/ios/50/sorting-arrows.png" alt=""
-                                (click)="sortBy('product')">
-                            <p>Nombre Producto</p>
-                        </div>
-                    </th>
-                    <th>
-                        <div class="header">
-                            <img src="https://img.icons8.com/ios/50/sorting-arrows.png" alt=""
-                                (click)="sortBy('price')">
-                            <p>Precio</p>
-                        </div>
-                    </th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let product of products">
-                    <td>
-                        <img [src]="product.product_image" alt="">
-                    </td>
-                    <td>
-                        {{ product.product_code ? product.product_code : 'N/A' }}
-                    </td>
-                    <td>
-                        {{ product.product }}
-                    </td>
-                    <td>
-                        {{ product.price | currency: 'CLP': 'symbol' }}
-                    </td>
-                    <td>
-                        <div class="actions">
-                            <button class="btn edit" data-bs-toggle="modal" data-bs-target="#editModal" (click)="onEditProduct(product)">Edit</button>
-                            <button class="btn delete" (click)="onDeleteProduct(product)">Delete</button>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="pagination">
-            <button (click)="onPageChange(currentPage - 1)" [disabled]="currentPage <= 1">Anterior</button>
-            <span>Página {{ currentPage }} de {{ totalPages }}</span>
-            <button (click)="onPageChange(currentPage + 1)" [disabled]="currentPage >= totalPages">Siguiente</button>
+        <div class="search-input">
+            <img src="https://img.icons8.com/ios/50/search.png" alt="Filter Icon">
+            <input type="text" class="filter-input" placeholder="Buscar productos por nombre"
+                (input)="searchProductsByName($event)">
         </div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>
+                    <p>Imagen</p>
+                </th>
+                <th>
+                    <div class="header">
+                        <img src="https://img.icons8.com/ios/50/sorting-arrows.png" alt=""
+                            (click)="sortBy('product_code')">
+                        <p>Código</p>
+                    </div>
+                </th>
+                <th>
+                    <div class="header">
+                        <img src="https://img.icons8.com/ios/50/sorting-arrows.png" alt="" (click)="sortBy('product')">
+                        <p>Nombre Producto</p>
+                    </div>
+                </th>
+                <th>
+                    <div class="header">
+                        <img src="https://img.icons8.com/ios/50/sorting-arrows.png" alt="" (click)="sortBy('price')">
+                        <p>Precio</p>
+                    </div>
+                </th>
+                <th>
+                    <div class="header">
+                        <img src="https://img.icons8.com/ios/50/sorting-arrows.png" alt="" (click)="sortBy('category')">
+                        <p>Categorias</p>
+                    </div>
+                </th>
+                <th>
+                    <p>Acciones</p>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let product of products">
+                <td>
+                    <img [src]="product.product_image" alt="Product Image" class="product-image">
+                </td>
+                <td>
+                    <p>{{ product.product_code ? product.product_code : 'N/A' }}</p>
+                </td>
+                <td>
+                    <p>{{ product.product }}</p>
+                </td>
+                <td>
+                    <p>{{ product.price | currency: 'CLP' }}</p>
+                </td>
+                <td>
+                    <div *ngFor="let category of product.categorias">
+                        <p>{{ category.nombre }}</p>
+                    </div>
+                </td>
+                <td>
+                    <div class="actions">
+                        <button class="btn edit" data-bs-toggle="modal" data-bs-target="#editModal"
+                            (click)="onEditProduct(product)">Edit</button>
+                        <button class="btn delete" (click)="onDeleteProduct(product)">Delete</button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="pagination">
+        <button (click)="onPageChange(currentPage - 1)" [disabled]="currentPage <= 1">Anterior</button>
+        <span>Página {{ currentPage }} de {{ totalPages }}</span>
+        <button (click)="onPageChange(currentPage + 1)" [disabled]="currentPage >= totalPages">Siguiente</button>
     </div>
 
     <!-- Edit Product Modal -->
@@ -102,18 +100,19 @@
                                 <label>{{ field.label }}</label>
                             </div>
                             <input [type]="field.type" [formControlName]="field.name" class="form-control product"
-                                id="{{ field.name }}"/>
+                                id="{{ field.name }}" />
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary" (click)="onSaveProduct()" data-bs-dismiss="modal">Guardar cambios</button>
+                    <button type="button" class="btn btn-primary" (click)="onSaveProduct()"
+                        data-bs-dismiss="modal">Guardar cambios</button>
                 </div>
             </div>
         </div>
     </div>
-    <div class="loader-container" *ngIf="isLoadingProducts">
+    <!--     <div class="loader-container" *ngIf="isLoadingProducts">
         <div class="loader"></div>
-    </div>
+    </div> -->
 </div>
