@@ -5,10 +5,11 @@ import { DataService } from '../services/data.service'
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SaleComponent } from './sale/sale.component';
+import { SalesComponent } from './sales/sales.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, ProductsComponent, CommonModule, NavbarComponent, SaleComponent],
+  imports: [RouterOutlet, ProductsComponent, CommonModule, NavbarComponent, SaleComponent, SalesComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

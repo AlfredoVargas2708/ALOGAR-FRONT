@@ -2,5 +2,6 @@
     <app-navbar></app-navbar>
     <app-sale [ngStyle]="{'display': principalView === 'Venta' ? 'flex' : 'none'}"></app-sale>
     <app-products [ngStyle]="{'display': principalView === 'Productos' ? 'flex' : 'none'}"/>
+    <app-sales [ngStyle]="{'display': principalView === 'Registros' ? 'flex' : 'none'}"></app-sales>
 </div>
 <router-outlet />
