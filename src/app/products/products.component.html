@@ -1,5 +1,11 @@
 <div class="container">
-    <h1>Productos</h1>
+    <div class="title-header">
+        <h1>Productos</h1>
+        <button class="btn add" data-bs-toggle="modal" data-bs-target="#addModal">
+            <img src="https://img.icons8.com/ios/50/ffffff/add.png" alt="Add Icon">
+            <p>Agregar Producto</p>
+        </button>
+    </div>
     <div class="filters">
         <div class="search-input">
             <img src="https://img.icons8.com/ios/50/search.png" alt="Filter Icon">
@@ -11,86 +17,80 @@
             <input type="text" class="filter-input" placeholder="Buscar productos por nombre"
                 (input)="searchProductsByName($event)">
         </div>
-<!--         <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                aria-expanded="false">
-                Filtrar por categoría
-            </button>
-            <ul class="dropdown-menu">
-                <li *ngFor="let category of categories">
-                    <a class="dropdown-item">
-                        <img [src]="category.category_image" alt="Category Icon">
-                        {{ category.category }}
-                    </a>
-                </li>
-            </ul>
-        </div> -->
     </div>
-    <table>
-        <thead>
-            <tr>
-                <th>
-                    <p>Imagen</p>
-                </th>
-                <th>
-                    <div class="header">
-                        <img src="https://img.icons8.com/ios/50/sorting-arrows.png" alt=""
-                            (click)="sortBy('product_code')">
-                        <p>Código</p>
-                    </div>
-                </th>
-                <th>
-                    <div class="header">
-                        <img src="https://img.icons8.com/ios/50/sorting-arrows.png" alt="" (click)="sortBy('product')">
-                        <p>Nombre Producto</p>
-                    </div>
-                </th>
-                <th>
-                    <div class="header">
-                        <img src="https://img.icons8.com/ios/50/sorting-arrows.png" alt="" (click)="sortBy('price')">
-                        <p>Precio</p>
-                    </div>
-                </th>
-                <th>
-                    <div class="header">
-                        <img src="https://img.icons8.com/ios/50/sorting-arrows.png" alt="" (click)="sortBy('category')">
-                        <p>Categorias</p>
-                    </div>
-                </th>
-                <th>
-                    <p>Acciones</p>
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let product of products">
-                <td>
-                    <img [src]="product.product_image" alt="Product Image" class="product-image">
-                </td>
-                <td>
-                    <p>{{ product.product_code ? product.product_code : 'N/A' }}</p>
-                </td>
-                <td>
-                    <p>{{ product.product }}</p>
-                </td>
-                <td>
-                    <p>{{ product.price | currency: 'CLP' }}</p>
-                </td>
-                <td>
-                    <div *ngFor="let category of product.categorias">
-                        <p>{{ category.nombre }}</p>
-                    </div>
-                </td>
-                <td>
-                    <div class="actions">
-                        <button class="btn edit" data-bs-toggle="modal" data-bs-target="#editModal"
-                            (click)="onEditProduct(product)">Edit</button>
-                        <button class="btn delete" (click)="onDeleteProduct(product)">Delete</button>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="loader-container" *ngIf="isLoadingProducts">
+        <div class="loader"></div>
+    </div>
+    <div class="table-container" *ngIf="!isLoadingProducts">
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        <p>Imagen</p>
+                    </th>
+                    <th>
+                        <div class="header">
+                            <img src="https://img.icons8.com/ios/50/sorting-arrows.png" alt=""
+                                (click)="sortBy('product_code')">
+                            <p>Código</p>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="header">
+                            <img src="https://img.icons8.com/ios/50/sorting-arrows.png" alt=""
+                                (click)="sortBy('product')">
+                            <p>Nombre Producto</p>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="header">
+                            <img src="https://img.icons8.com/ios/50/sorting-arrows.png" alt=""
+                                (click)="sortBy('price')">
+                            <p>Precio</p>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="header">
+                            <img src="https://img.icons8.com/ios/50/sorting-arrows.png" alt=""
+                                (click)="sortBy('category')">
+                            <p>Categorias</p>
+                        </div>
+                    </th>
+                    <th>
+                        <p>Acciones</p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let product of products">
+                    <td>
+                        <img [src]="product.product_image" alt="Product Image" class="product-image">
+                    </td>
+                    <td>
+                        <p>{{ product.product_code ? product.product_code : 'N/A' }}</p>
+                    </td>
+                    <td>
+                        <p>{{ product.product }}</p>
+                    </td>
+                    <td>
+                        <p>{{ product.price | currency: 'CLP' }}</p>
+                    </td>
+                    <td>
+                        <div *ngFor="let category of product.categorias">
+                            <p>{{ category.nombre }}</p>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="actions">
+                            <button class="btn edit" data-bs-toggle="modal" data-bs-target="#editModal"
+                                (click)="onEditProduct(product)">Edit</button>
+                            <button class="btn delete" (click)="onDeleteProduct(product)">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
     <div class="pagination">
         <button (click)="onPageChange(currentPage - 1)" [disabled]="currentPage <= 1">Anterior</button>
         <span>Página {{ currentPage }} de {{ totalPages }}</span>
@@ -126,7 +126,47 @@
             </div>
         </div>
     </div>
-    <!--     <div class="loader-container" *ngIf="isLoadingProducts">
-        <div class="loader"></div>
-    </div> -->
+    <!-- Add Product Modal -->
+    <div class="modal" tabindex="-1" id="addModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Agregar Producto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="addProductForm" class="addProductForm">
+                        <div *ngFor="let field of addProductFields; let i = index" [class]="field.name">
+                            <div class="labels">
+                                <img [src]="addProductIcons[i]" alt="Label Icon">
+                                <label>{{ field.label }}</label>
+                            </div>
+                            <input [type]="field.type" [formControlName]="field.name" class="form-control product"
+                                id="{{ field.name }}" *ngIf="field.name !== 'category' && field.name !== 'weighable'" />
+                            <div class="categories-checkbox" *ngIf="field.name === 'category'">
+                                <label for="category">Categorías</label><br>
+                                <div *ngFor="let category of categories">
+                                    <input type="checkbox" id="category-{{ category.category_id }}" name="category"
+                                        [value]="category.category_id" (change)="onCategoryCheckboxChange($event)" />
+                                    <label for="category-{{ category.category_id }}">{{ category.category }}</label>
+                                </div>
+                            </div>
+                            <div *ngIf="field.name === 'weighable'">
+                                <select class="form-control" [formControlName]="field.name">
+                                    <option [ngValue]="true">Sí</option>
+                                    <option [ngValue]="false">No</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" (click)="onAddProduct()" data-bs-dismiss="modal">Save
+                        changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

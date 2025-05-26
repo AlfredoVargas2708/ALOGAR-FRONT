@@ -5,59 +5,87 @@
     padding: 20px;
 }
 
-table {
-    border-collapse: collapse;
-    width: 100%;
-    overflow: auto;
+.title-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
 
-    .header {
+    .add {
         display: flex;
         align-items: center;
         gap: 10px;
+        background-color: #1b421d;
+        color: white;
+        border-radius: 5px;
+        padding: 10px 20px;
 
         img {
-            width: 20px;
-            height: 20px;
+            width: 25px;
+            height: 25px;
             cursor: pointer;
         }
     }
+}
 
-    td,
-    th {
-        border: 1px solid #1b421d;
-        padding: 5px 10px;
-    }
+.table-container {
+    overflow: auto;
+    width: 100%;
 
-    tbody {
-        img {
-            width: 60px;
-            height: 60px;
-        }
-    }
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        overflow: auto;
 
-    .actions {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
 
-        button {
-            width: 100%;
-            height: 100%;
-            padding: 10px 0;
+            img {
+                width: 20px;
+                height: 20px;
+                cursor: pointer;
+            }
         }
 
-        .edit {
-            background-color: #1b421d;
-            color: white;
-            border: 1px solid white;
+        td,
+        th {
+            border: 1px solid #1b421d;
+            padding: 5px 10px;
         }
 
-        .delete {
-            background-color: #d9534f;
-            color: white;
-            border: 1px solid white;
+        tbody {
+            img {
+                width: 60px;
+                height: 60px;
+            }
+        }
+
+        .actions {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+
+            button {
+                width: 100%;
+                height: 100%;
+                padding: 10px 0;
+            }
+
+            .edit {
+                background-color: #1b421d;
+                color: white;
+                border: 1px solid white;
+            }
+
+            .delete {
+                background-color: #d9534f;
+                color: white;
+                border: 1px solid white;
+            }
         }
     }
 }
@@ -180,6 +208,42 @@ table {
     }
 }
 
+.addProductForm {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    .codigo,
+    .name,
+    .price,
+    .quantity,
+    .category,
+    .url,
+    .image {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .labels {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+
+        img {
+            width: 20px;
+            height: 20px;
+        }
+    }
+
+    .categories-checkbox {
+        display: grid;
+        grid-template-columns: repeat(2, 0.5fr);
+        gap: 5px;
+    }
+}
+
 @keyframes l3 {
     to {
         transform: rotate(1turn)
@@ -210,6 +274,14 @@ table {
             height: 45px;
         }
     }
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #1b421d;
+    background-color: #f8f8f8;
 }
 
 p,

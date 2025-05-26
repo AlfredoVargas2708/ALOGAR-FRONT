@@ -2,8 +2,8 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductsService } from '../../services/products.service';
 import { CategoriesService } from '../../services/categories.service';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { PRODUCTFIELDS } from '../config/fields.config';
+import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { PRODUCTFIELDS, ADDPRODUCTFIELDS } from '../config/fields.config';
 
 @Component({
   selector: 'app-products',
@@ -27,12 +27,23 @@ export class ProductsComponent {
   orderBy: 'asc' | 'desc' = 'asc';
 
   productFields = PRODUCTFIELDS;
+  addProductFields = ADDPRODUCTFIELDS;
   productForm!: FormGroup;
+  addProductForm!: FormGroup;
   productIcons = [
     'https://img.icons8.com/ios/50/barcode-scanner.png',
     '',
     'https://img.icons8.com/ios/50/product--v1.png',
     'https://img.icons8.com/ios/50/price-tag.png',
+  ];
+  addProductIcons = [
+    'https://img.icons8.com/ios/50/barcode-scanner.png',
+    'https://img.icons8.com/ios/50/product--v1.png',
+    'https://img.icons8.com/ios/50/price-tag.png',
+    'https://img.icons8.com/material-rounded/50/sorting-answers.png',
+    'https://img.icons8.com/ios/50/web.png',
+    'https://img.icons8.com/ios/50/image.png',
+    'https://img.icons8.com/ios/50/checked--v1.png'
   ];
 
   constructor(
@@ -45,6 +56,18 @@ export class ProductsComponent {
       productGroup[field.name] = this.fb.control('');
     });
     this.productForm = this.fb.group(productGroup);
+
+    const addProductGroup: any = {};
+    this.addProductFields.forEach((field) => {
+      if (field.name === 'category') {
+        addProductGroup[field.name] = this.fb.array([]);
+      } else if (field.name === 'weighable') {
+        addProductGroup[field.name] = this.fb.control(false);
+      } else {
+        addProductGroup[field.name] = this.fb.control('');
+      }
+    });
+    this.addProductForm = this.fb.group(addProductGroup);
   }
 
   ngOnInit() {
@@ -66,12 +89,45 @@ export class ProductsComponent {
   fetchCategories() {
     this.categoriesService.getCategories().subscribe((data) => {
       this.categories = data;
+      console.log('Categories:', this.categories);
     })
   }
 
   onPageChange(newPage: number) {
     this.currentPage = newPage;
   }
+
+  get categoryFormArray() {
+    return this.addProductForm.get('category') as FormArray;
+  }
+
+  onCategoryCheckboxChange(event: Event) {
+    const checkbox = event.target as HTMLInputElement;
+    const categoryId = parseInt(checkbox.value, 10);
+    const formArray = this.categoryFormArray;
+
+    if (checkbox.checked) {
+      formArray.push(this.fb.control(categoryId));
+    } else {
+      const index = formArray.controls.findIndex(ctrl => ctrl.value === categoryId);
+      if (index !== -1) {
+        formArray.removeAt(index);
+      }
+    }
+  }
+
+  onAddProduct() {
+    const productData = this.addProductForm.value;
+    console.log('Producto a agregar:', productData);
+    // productData.category será un array con los IDs seleccionados
+
+    this.productsService.addProduct(productData).subscribe((res) => {
+      console.log('Producto agregado:', res);
+      this.addProductForm.reset();
+      this.categoryFormArray.clear();
+    });
+  }
+
 
   onEditProduct(product: any) {
     this.productForm.patchValue({

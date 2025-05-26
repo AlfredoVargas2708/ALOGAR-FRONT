@@ -21,3 +21,13 @@ export const PRODUCTFIELDS: ProductField[] = [
   { type: 'text', name: 'name', label: 'Nombre del Producto' },
   { type: 'number', name: 'price', label: 'Precio' },
 ];
+
+export const ADDPRODUCTFIELDS: ProductField[] = [
+  { type: 'number', name: 'codigo', label: 'Codigo de Barras' },
+  { type: 'text', name: 'name', label: 'Nombre del Producto' },
+  { type: 'number', name: 'price', label: 'Precio' },
+  { type: 'checkbox', name: 'category', label: 'Categoria' },
+  { type: 'text', name: 'url', label: 'Sitio Web' },
+  { type: 'text', name: 'image', label: 'Imagen' },
+  { type: 'select', name: 'weighable', label: '¿Es Pesable?' },
+]
