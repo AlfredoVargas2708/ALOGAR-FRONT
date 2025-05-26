@@ -89,7 +89,6 @@ export class ProductsComponent {
   fetchCategories() {
     this.categoriesService.getCategories().subscribe((data) => {
       this.categories = data;
-      console.log('Categories:', this.categories);
     })
   }
 

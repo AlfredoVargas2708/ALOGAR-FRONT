@@ -62,7 +62,7 @@ export class SaleComponent implements AfterViewInit {
     this.saleForm = this.fb.group(saleGroup);
 
     this.saleService.getCantSales().subscribe((res) => {
-      this.cantSales = res.count + 1;
+      this.cantSales = res.total_sales + 1;
     });
   }
 
@@ -87,16 +87,18 @@ export class SaleComponent implements AfterViewInit {
       id: this.cantSales,
       total: this.totalSale,
       products: this.productsInSale
-    })
-    console.log('Sale Form Submitted', this.saleForm.value);
-    setTimeout(() => {
-      this.productsInSale = [];
-      this.totalSale = 0;
-      this.indexOfProduct = null; // Resetear la selección
-      this.saleForm.reset();
-      this.productForm.reset();
-      this.focusCodeInput();
-    })
+    });
+    this.saleService.createSale(this.saleForm.value).subscribe((res) => {
+      console.log('Sale created successfully', res);
+      setTimeout(() => {
+        this.productsInSale = [];
+        this.totalSale = 0;
+        this.indexOfProduct = null; // Resetear la selección
+        this.saleForm.reset();
+        this.productForm.reset();
+        this.focusCodeInput();
+      }, 1500);
+    });
   }
 
   onCodeInput(event: Event) {
@@ -118,36 +120,36 @@ export class SaleComponent implements AfterViewInit {
     });
   }
 
-onQuantityInput(event: Event) {
-  const inputElement = event.target as HTMLInputElement;
-  const value = inputElement.value;
-  const isWeighable = this.productForm.get('weighable')?.value;
+  onQuantityInput(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    const value = inputElement.value;
+    const isWeighable = this.productForm.get('weighable')?.value;
 
-  // Validación para productos pesables
-  if (isWeighable) {
-    // Verificar si el valor tiene decimales
-    if (!value.includes('.') || value.split('.')[1]?.length !== 2) {
-      // Mostrar mensaje de error y mantener el foco
-      inputElement.setCustomValidity('Debe ingresar un valor con 2 decimales (ej: 1.00)');
-      inputElement.reportValidity();
-      return; // Salir de la función sin procesar
-    } else {
-      inputElement.setCustomValidity(''); // Limpiar el mensaje de error
+    // Validación para productos pesables
+    if (isWeighable) {
+      // Verificar si el valor tiene decimales
+      if (!value.includes('.') || value.split('.')[1]?.length !== 2) {
+        // Mostrar mensaje de error y mantener el foco
+        inputElement.setCustomValidity('Debe ingresar un valor con 2 decimales (ej: 1.00)');
+        inputElement.reportValidity();
+        return; // Salir de la función sin procesar
+      } else {
+        inputElement.setCustomValidity(''); // Limpiar el mensaje de error
+      }
     }
-  }
 
-  // Si hay un producto seleccionado, actualizarlo
-  if (this.indexOfProduct !== null) {
-    this.updateSelectedProduct(Number(value));
-  } else {
-    // Si no hay producto seleccionado, agregar uno nuevo
-    this.addNewProduct(Number(value));
-  }
+    // Si hay un producto seleccionado, actualizarlo
+    if (this.indexOfProduct !== null) {
+      this.updateSelectedProduct(Number(value));
+    } else {
+      // Si no hay producto seleccionado, agregar uno nuevo
+      this.addNewProduct(Number(value));
+    }
 
-  this.productForm.reset();
-  this.focusCodeInput();
-  this.indexOfProduct = null;
-}
+    this.productForm.reset();
+    this.focusCodeInput();
+    this.indexOfProduct = null;
+  }
 
   private addNewProduct(quantity: number) {
     this.productsInSale.push({
