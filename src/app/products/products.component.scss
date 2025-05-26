@@ -242,6 +242,13 @@
         grid-template-columns: repeat(2, 0.5fr);
         gap: 5px;
     }
+
+    .form-check {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 0;
+    }
 }
 
 @keyframes l3 {
